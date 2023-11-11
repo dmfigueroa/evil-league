@@ -1,5 +1,6 @@
 import {
   json,
+  type HeadersFunction,
   type LoaderFunctionArgs,
   type MetaFunction,
 } from "@remix-run/cloudflare";
