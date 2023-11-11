@@ -59,7 +59,14 @@ export async function loader({ context }: LoaderFunctionArgs) {
     })
   ).json<{ data: TwitchBroadcaster[] }>();
 
-  return json({ users: usersResponse.data });
+  return json(
+    { users: usersResponse.data },
+    {
+      headers: {
+        "Cache-Control": "public, max-age=3600",
+      },
+    }
+  );
 }
 
 export default function Index() {
