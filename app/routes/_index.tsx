@@ -71,8 +71,12 @@ export default function Index() {
       style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }}
     >
       <h1 className="sr-only">Evil League</h1>
-      <img className="max-w-[50vw]" alt="Evil League" src="/img/Evil_Le.avif" />
-      <p className="text-xl mb-2 -mt-10 font-bold">
+      <img
+        className="max-w-[50vw] -mt-12"
+        alt="Evil League"
+        src="/img/Evil_Le.avif"
+      />
+      <p className="text-xl mb-2 -mt-14 font-bold">
         By{" "}
         <a
           className="font-bold text-primary underline underline-offset-4"
