@@ -20,7 +20,7 @@ const participants = [
   "ayanaeh",
   "fede_sbs",
   "morninglyre",
-  "mikahel",
+  "ElMikahel",
   "cuixy",
   "regaliax2",
   "aniriah",
@@ -89,9 +89,18 @@ export default function Index() {
           className="font-bold text-primary underline underline-offset-4"
           target="_blank"
           rel="noreferrer"
-          href="https://twitch.tv/bimbolatte"
+          href="https://twitch.tv/bimbolatte_"
         >
           Bimbolatte
+        </a>{" "}
+        y{" "}
+        <a
+          className="font-bold text-primary underline underline-offset-4"
+          target="_blank"
+          rel="noreferrer"
+          href="https://twitch.tv/evilist_"
+        >
+          Evilist
         </a>
       </p>
       <div className="flex flex-row flex-wrap gap-4 m-4 justify-center max-w-6xl">
