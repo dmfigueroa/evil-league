@@ -10,7 +10,7 @@ import { getTwitchToken } from "../twitch/token";
 export const meta: MetaFunction = () => {
   return [
     { title: "Evil League by Bimbolatte" },
-    { name: "description", content: "Welcome to Remix!" },
+    { name: "description", content: "Evil League by Bimbolatte" },
   ];
 };
 
