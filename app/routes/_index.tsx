@@ -38,6 +38,12 @@ type TwitchBroadcaster = {
   created_at: string;
 };
 
+export let headers: HeadersFunction = () => {
+  return {
+    "Cache-Control": "public, s-maxage=3600",
+  };
+};
+
 export async function loader({ context }: LoaderFunctionArgs) {
   const env = context.env as Environment;
   const twitchToken = await getTwitchToken({
@@ -59,14 +65,7 @@ export async function loader({ context }: LoaderFunctionArgs) {
     })
   ).json<{ data: TwitchBroadcaster[] }>();
 
-  return json(
-    { users: usersResponse.data },
-    {
-      headers: {
-        "Cache-Control": "public, max-age=3600",
-      },
-    }
-  );
+  return json({ users: usersResponse.data });
 }
 
 export default function Index() {
