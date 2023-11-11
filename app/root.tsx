@@ -10,6 +10,11 @@ import {
 } from "@remix-run/react";
 import stylesheet from "./tailwind.css";
 
+export type Environment = {
+  TWITCH_CLIENT_ID: string;
+  TWITCH_CLIENT_SECRET: string;
+};
+
 export const links: LinksFunction = () => [
   ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
   { rel: "stylesheet", href: stylesheet },
