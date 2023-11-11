@@ -72,6 +72,17 @@ export default function Index() {
     >
       <h1 className="sr-only">Evil League</h1>
       <img className="max-w-[50vw]" alt="Evil League" src="/img/Evil_Le.avif" />
+      <p className="text-xl mb-2 -mt-10 font-bold">
+        By{" "}
+        <a
+          className="font-bold text-primary underline underline-offset-4"
+          target="_blank"
+          rel="noreferrer"
+          href="https://twitch.tv/bimbolatte"
+        >
+          Bimbolatte
+        </a>
+      </p>
       <div className="flex flex-row flex-wrap gap-4 m-4 justify-center max-w-6xl">
         {users.map((participant) => (
           <a
@@ -81,7 +92,7 @@ export default function Index() {
             rel="noreferrer"
           >
             <img
-              className="space-y-3 w-[250px] rounded-2xl shadow-lg h-auto object-cover transition-all hover:scale-105"
+              className="space-y-3 w-[150px] lg:w-[250px] rounded-2xl shadow-lg h-auto object-cover transition-all hover:scale-105"
               src={participant.profile_image_url}
               aria-hidden
               alt={`${participant.display_name} profile picture`}
