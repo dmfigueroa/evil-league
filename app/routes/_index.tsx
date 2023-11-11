@@ -81,7 +81,7 @@ export default function Index() {
             rel="noreferrer"
           >
             <img
-              className="space-y-3 w-[250px] rounded-2xl shadow-lg"
+              className="space-y-3 w-[250px] rounded-2xl shadow-lg h-auto object-cover transition-all hover:scale-105"
               src={participant.profile_image_url}
               aria-hidden
               alt={`${participant.display_name} profile picture`}
