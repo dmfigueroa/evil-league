@@ -20,6 +20,6 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          projectName: budget
-          directory: dist
+          projectName: evil-league
+          directory: public
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
