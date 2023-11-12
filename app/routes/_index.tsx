@@ -3,10 +3,13 @@ import {
   type HeadersFunction,
   type LoaderFunctionArgs,
   type MetaFunction,
+  defer,
 } from "@remix-run/cloudflare";
-import { useLoaderData } from "@remix-run/react";
+import { Await, useLoaderData } from "@remix-run/react";
 import type { Environment } from "../root";
 import { getTwitchToken } from "../twitch/token";
+import { getStreams, getUsersData } from "../twitch/requests";
+import { Suspense } from "react";
 
 export const meta: MetaFunction = () => {
   return [
@@ -26,19 +29,6 @@ const participants = [
   "aniriah",
 ];
 
-type TwitchBroadcaster = {
-  id: string;
-  login: string;
-  display_name: string;
-  type: string;
-  broadcaster_type: string;
-  description: string;
-  profile_image_url: string;
-  offline_image_url: string;
-  view_count: number;
-  created_at: string;
-};
-
 export let headers: HeadersFunction = () => {
   return {
     "Cache-Control": "public, s-maxage=3600",
@@ -52,25 +42,30 @@ export async function loader({ context }: LoaderFunctionArgs) {
     clientSecret: env.TWITCH_CLIENT_SECRET,
   });
 
-  const params = new URLSearchParams();
-  for (const participant of participants) {
-    params.append("login", participant);
-  }
+  const streamersInfo = await getUsersData({
+    channels: participants,
+    token: twitchToken,
+    clientId: env.TWITCH_CLIENT_ID,
+  });
 
-  const usersResponse = await (
-    await fetch(`https://api.twitch.tv/helix/users?${params.toString()}`, {
+  const streams = getStreams({
+    channels: participants,
+    token: twitchToken,
+    clientId: env.TWITCH_CLIENT_ID,
+  });
+
+  return defer(
+    { users: streamersInfo, streams: streams },
+    {
       headers: {
-        Authorization: `Bearer ${twitchToken}`,
-        "Client-Id": env.TWITCH_CLIENT_ID,
+        "Cache-Control": "public, s-maxage=3600",
       },
-    })
-  ).json<{ data: TwitchBroadcaster[] }>();
-
-  return json({ users: usersResponse.data });
+    }
+  );
 }
 
 export default function Index() {
-  const { users } = useLoaderData<typeof loader>();
+  const { users, streams } = useLoaderData<typeof loader>();
 
   return (
     <div
@@ -117,7 +112,26 @@ export default function Index() {
               aria-hidden
               alt={`${participant.display_name} profile picture`}
             ></img>
-            <p className="text-xl my-2 font-bold">{participant.display_name}</p>
+            <div className="flex justify-between items-center">
+              <p className="text-xl my-2 font-bold">
+                {participant.display_name}
+              </p>
+              <Suspense>
+                <Await resolve={streams}>
+                  {(streams) => {
+                    const stream = streams.find(
+                      (stream) => stream.user_id === participant.id
+                    );
+                    if (!stream) return null;
+                    return (
+                      <p className="text-lg my-2 bg-red-600 px-4 rounded-full font-bold">
+                        Live
+                      </p>
+                    );
+                  }}
+                </Await>
+              </Suspense>
+            </div>
           </a>
         ))}
       </div>
