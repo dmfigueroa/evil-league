@@ -42,20 +42,32 @@ export async function loader({ context }: LoaderFunctionArgs) {
     clientSecret: env.TWITCH_CLIENT_SECRET,
   });
 
-  const streamersInfo = await getUsersData({
-    channels: participants,
-    token: twitchToken,
-    clientId: env.TWITCH_CLIENT_ID,
-  });
+  const [streamersInfo, streams] = await Promise.all([
+    getUsersData({
+      channels: participants,
+      token: twitchToken,
+      clientId: env.TWITCH_CLIENT_ID,
+    }),
+    getStreams({
+      channels: participants,
+      token: twitchToken,
+      clientId: env.TWITCH_CLIENT_ID,
+    }),
+  ]);
 
-  const streams = getStreams({
-    channels: participants,
-    token: twitchToken,
-    clientId: env.TWITCH_CLIENT_ID,
-  });
+  const usersWithLiveStatus = streamersInfo
+    .map((streamer) => {
+      const stream = streams.find((stream) => stream.user_id === streamer.id);
+      return { ...streamer, live: !!stream };
+    })
+    .sort((a, b) => {
+      if (a.live && !b.live) return -1;
+      if (!a.live && b.live) return 1;
+      return 0;
+    });
 
   return defer(
-    { users: streamersInfo, streams: streams },
+    { users: usersWithLiveStatus },
     {
       headers: {
         "Cache-Control": "public, s-maxage=3600",
@@ -65,7 +77,7 @@ export async function loader({ context }: LoaderFunctionArgs) {
 }
 
 export default function Index() {
-  const { users, streams } = useLoaderData<typeof loader>();
+  const { users } = useLoaderData<typeof loader>();
 
   return (
     <div
@@ -116,21 +128,11 @@ export default function Index() {
               <p className="text-xl my-2 font-bold">
                 {participant.display_name}
               </p>
-              <Suspense>
-                <Await resolve={streams}>
-                  {(streams) => {
-                    const stream = streams.find(
-                      (stream) => stream.user_id === participant.id
-                    );
-                    if (!stream) return null;
-                    return (
-                      <p className="text-lg my-2 bg-red-600 px-4 rounded-full font-bold">
-                        Live
-                      </p>
-                    );
-                  }}
-                </Await>
-              </Suspense>
+              {participant.live && (
+                <p className="text-lg my-2 bg-red-600 px-4 rounded-full font-bold">
+                  Live
+                </p>
+              )}
             </div>
           </a>
         ))}
