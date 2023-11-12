@@ -1,15 +1,13 @@
 import {
-  json,
+  defer,
   type HeadersFunction,
   type LoaderFunctionArgs,
   type MetaFunction,
-  defer,
 } from "@remix-run/cloudflare";
-import { Await, useLoaderData } from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react";
 import type { Environment } from "../root";
-import { getTwitchToken } from "../twitch/token";
 import { getStreams, getUsersData } from "../twitch/requests";
-import { Suspense } from "react";
+import { getTwitchToken } from "../twitch/token";
 
 export const meta: MetaFunction = () => {
   return [
@@ -91,7 +89,7 @@ export default function Index() {
         src="/img/Evil_Le.avif"
       />
       <p className="text-xl mb-2 -mt-14 font-bold">
-        By{" "}
+        Por{" "}
         <a
           className="font-bold text-primary underline underline-offset-4"
           target="_blank"
