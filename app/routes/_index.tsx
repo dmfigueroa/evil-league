@@ -21,7 +21,7 @@ const participants = [
   "ayanaeh",
   "fede_sbs",
   "morninglyre",
-  "ElMikahel",
+  "tashantirxiv",
   "cuixy",
   "regaliax2",
   "aniriah",
