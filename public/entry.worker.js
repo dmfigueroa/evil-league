@@ -1926,6 +1926,13 @@ var require_manifest_webmanifest = __commonJS({
   }
 });
 
+// routes-module:routes/$login.tsx?worker
+var require_login = __commonJS({
+  "routes-module:routes/$login.tsx?worker"(exports, module) {
+    module.exports = {};
+  }
+});
+
 // routes-module:routes/_index.tsx?worker
 var require_index = __commonJS({
   "routes-module:routes/_index.tsx?worker"(exports, module) {
@@ -6520,10 +6527,11 @@ self.addEventListener("message", (event) => {
 // entry-module:@remix-pwa/build/magic
 var route0 = __toESM(require_root());
 var route1 = __toESM(require_manifest_webmanifest());
-var route2 = __toESM(require_index());
+var route2 = __toESM(require_login());
+var route3 = __toESM(require_index());
 
 // assets-module:@remix-pwa/dev?assets
-var assets = [];
+var assets = ["/build/root-DQ4KB7D5.js", "/build/manifest-025F2C74.js", "/build/entry.client-EDGZVF6G.js", "/build/__remix_entry_dev-QBBE7COC.js", "/build/routes/manifest[.]webmanifest-J3KYYY3Q.js", "/build/routes/_index-7I22JRLI.js", "/build/routes/$login-QY6JI2Y5.js", "/build/_shared/runtime-ZFKNW5BR.js", "/build/_shared/remix_hmr-IJK6RUEX.js", "/build/_shared/react-dom-FDOIOBMT.js", "/build/_shared/react-KINKPTZX.js", "/build/_shared/jsx-runtime-UIJ2I6YU.js", "/build/_shared/jsx-dev-runtime-VZSIHBRO.js", "/build/_shared/esm-JD4OBL5P.js", "/build/_shared/client-ILSEVI3S.js", "/build/_shared/chunk-PNG5AS42.js", "/build/_shared/chunk-O4OKU2LD.js", "/build/_shared/chunk-NRH5LTJ7.js", "/build/_shared/chunk-NBQ64UUP.js", "/build/_shared/chunk-KV3F2EJL.js", "/build/_shared/chunk-K6PKGSTD.js", "/build/_shared/chunk-H5ZE7JVG.js", "/build/_shared/chunk-EIQJTAFN.js", "/build/_shared/chunk-BA6NHEY4.js", "/build/_assets/tailwind-4PEBWFL3.css"];
 
 // entry-module:@remix-pwa/build/magic
 var routes = {
@@ -6543,13 +6551,21 @@ var routes = {
     caseSensitive: void 0,
     module: route1
   },
+  "routes/$login": {
+    id: "routes/$login",
+    parentId: "root",
+    path: ":login",
+    index: void 0,
+    caseSensitive: void 0,
+    module: route2
+  },
   "routes/_index": {
     id: "routes/_index",
     parentId: "root",
     path: void 0,
     index: true,
     caseSensitive: void 0,
-    module: route2
+    module: route3
   }
 };
 var entry = { module: entry_worker_exports };

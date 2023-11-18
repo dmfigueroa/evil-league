@@ -4,10 +4,11 @@ import {
   type LoaderFunctionArgs,
   type MetaFunction,
 } from "@remix-run/cloudflare";
-import { useLoaderData } from "@remix-run/react";
+import { Link, useLoaderData } from "@remix-run/react";
 import type { Environment } from "../root";
 import { getStreams, getUsersData } from "../twitch/requests";
 import { getTwitchToken } from "../twitch/token";
+import Live from "../components/live";
 
 export const meta: MetaFunction = () => {
   return [
@@ -21,7 +22,7 @@ const participants = [
   "ayanaeh",
   "fede_sbs",
   "morninglyre",
-  "ElMikahel",
+  "tashantirxiv",
   "cuixy",
   "regaliax2",
   "aniriah",
@@ -34,6 +35,8 @@ export let headers: HeadersFunction = () => {
 };
 
 export async function loader({ context }: LoaderFunctionArgs) {
+  console.log(context);
+
   const env = context.env as Environment;
   const twitchToken = await getTwitchToken({
     clientId: env.TWITCH_CLIENT_ID,
@@ -110,29 +113,25 @@ export default function Index() {
       </p>
       <div className="flex flex-row flex-wrap gap-4 m-4 justify-center max-w-6xl">
         {users.map((participant) => (
-          <a
-            key={participant.id}
-            href={`https://twitch.tv/${participant.login}`}
-            target="_blank"
-            rel="noreferrer"
-          >
+          <Link to={`/${participant.login}`} key={participant.id}>
             <img
               className="space-y-3 w-[150px] lg:w-[250px] rounded-2xl shadow-lg h-auto object-cover transition-all hover:scale-105"
               src={participant.profile_image_url}
               aria-hidden
               alt={`${participant.display_name} profile picture`}
             ></img>
-            <div className="flex justify-between items-center">
+            <a
+              href={`https://twitch.tv/${participant.login}`}
+              target="_blank"
+              rel="noreferrer"
+              className="flex justify-between items-center"
+            >
               <p className="text-xl my-2 font-bold">
                 {participant.display_name}
               </p>
-              {participant.live && (
-                <p className="text-lg my-2 bg-red-600 px-4 rounded-full font-bold">
-                  Live
-                </p>
-              )}
-            </div>
-          </a>
+              <Live isLive={participant.live} />
+            </a>
+          </Link>
         ))}
       </div>
     </div>
